@@ -1781,9 +1781,16 @@ button {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.25rem;
   font-size: 0.84rem;
-  color: #64748b;
+  color: #94a3b8;
+}
+
+.footer-bottom-actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .footer-legal-links {
@@ -1791,8 +1798,47 @@ button {
   gap: 1.5rem;
 }
 
+.footer-legal-links a {
+  color: #94a3b8;
+  transition: color var(--transition-fast);
+}
+
 .footer-legal-links a:hover {
-  color: #cbd5e1;
+  color: #ffffff;
+}
+
+.btn-footer-back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.15rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-full);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-footer-back-to-top svg {
+  color: var(--ukh-cyan);
+  transition: transform var(--transition-fast);
+}
+
+.btn-footer-back-to-top:hover {
+  background: var(--ukh-blue);
+  border-color: var(--ukh-cyan);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(28, 84, 150, 0.4);
+}
+
+.btn-footer-back-to-top:hover svg {
+  transform: translateY(-2px);
+  color: #ffffff;
 }
 
 /* ==========================================================================

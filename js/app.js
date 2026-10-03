@@ -1584,23 +1584,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 9. Initialize Floating Back to Top Button
+  // 9. Initialize Back to Top Buttons (Floating & Footer)
   function initBackToTop() {
-    const btn = document.getElementById('backToTopBtn');
-    if (!btn) return;
+    const floatingBtn = document.getElementById('backToTopBtn');
+    const footerBtns = document.querySelectorAll('.btn-footer-back-to-top');
 
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 320) {
-        btn.classList.add('visible');
-      } else {
-        btn.classList.remove('visible');
-      }
-    }, { passive: true });
+    if (floatingBtn) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 320) {
+          floatingBtn.classList.add('visible');
+        } else {
+          floatingBtn.classList.remove('visible');
+        }
+      }, { passive: true });
 
-    btn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+      floatingBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+
+    footerBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
       });
     });
   }
