@@ -704,6 +704,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
       }
     });
+
+    // Auto-close drawer when clicking any link or action inside
+    mobileDrawer.querySelectorAll('.mobile-drawer-links a, .btn-open-apply').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
   }
 
   /* ==========================================================================
