@@ -1453,43 +1453,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.innerWidth <= 768;
-
     parallaxSections.forEach(section => {
       const bg = section.querySelector('.ukh-parallax-bg');
       if (!bg) return;
 
-      if (isTouch) {
-        bg.style.transform = 'none';
-        return;
-      }
-
-      let isVisible = false;
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          isVisible = entry.isIntersecting;
-          if (isVisible) updateParallax();
-        });
-      }, { rootMargin: '100px 0px' });
-
-      observer.observe(section);
-
       function updateParallax() {
-        if (!isVisible) return;
         const rect = section.getBoundingClientRect();
         const winHeight = window.innerHeight;
+        // Skip if outside viewport window
+        if (rect.bottom < -80 || rect.top > winHeight + 80) return;
+
         const sectionCenter = rect.top + rect.height * 0.5;
         const screenCenter = winHeight * 0.5;
-        // Controlled, smooth parallax movement: factor 0.22
-        const offset = (sectionCenter - screenCenter) * 0.22;
-        
+        // Distinct, smooth parallax speed factor (0.3 desktop, 0.16 on small screens)
+        const speed = window.innerWidth <= 768 ? 0.16 : 0.30;
+        const offset = (sectionCenter - screenCenter) * speed;
+
         bg.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
       }
 
       let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (!isVisible) return;
+      function onScroll() {
         if (!ticking) {
           window.requestAnimationFrame(() => {
             updateParallax();
@@ -1497,9 +1481,12 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           ticking = true;
         }
-      }, { passive: true });
+      }
 
-      // Initial alignment
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+
+      // Run initial position immediately
       updateParallax();
     });
   }
