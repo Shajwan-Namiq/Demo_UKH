@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
     selectedSchools: new Set(),
     currentProgramme: null,
     currentNews: null,
-    applicationStep: 1,
-    theme: localStorage.getItem('ukh-theme') || 'light'
+    applicationStep: 1
   };
 
-  // Initialize Theme
-  document.documentElement.setAttribute('data-theme', state.theme);
-  updateThemeIcons();
+  // Permanently clear dark mode & ensure crisp light mode
+  try {
+    localStorage.removeItem('ukh-theme');
+    document.documentElement.removeAttribute('data-theme');
+  } catch (e) {}
 
   // Setup Modals across all pages (Inject if placeholder)
   ensureModalsExist();
@@ -36,32 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const applyModal = document.getElementById('applyModal');
   const searchModal = document.getElementById('searchModal');
   const newsModal = document.getElementById('newsModal');
-
-  /* ==========================================================================
-     Theme Toggle
-     ========================================================================== */
-  const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
-  themeToggleBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      state.theme = state.theme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', state.theme);
-      localStorage.setItem('ukh-theme', state.theme);
-      updateThemeIcons();
-      showToast(`Switched to ${state.theme === 'dark' ? 'Dark' : 'Light'} Mode`);
-    });
-  });
-
-  function updateThemeIcons() {
-    const sunIcons = document.querySelectorAll('.theme-icon-sun');
-    const moonIcons = document.querySelectorAll('.theme-icon-moon');
-    if (state.theme === 'dark') {
-      sunIcons.forEach(i => i.style.display = 'block');
-      moonIcons.forEach(i => i.style.display = 'none');
-    } else {
-      sunIcons.forEach(i => i.style.display = 'none');
-      moonIcons.forEach(i => i.style.display = 'block');
-    }
-  }
 
   /* ==========================================================================
      URL Query Parameters Handling (for Programmes page)
